@@ -4,6 +4,11 @@
   "installCommand": "npm install --include=dev",
   "buildCommand": "npm run build --workspace=shared && npx prisma generate --schema=backend/prisma/schema.prisma && npm run build --workspace=backend && npm run build --workspace=frontend",
   "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "backend/dist/**"
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" }
   ]
