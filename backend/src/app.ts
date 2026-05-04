@@ -33,6 +33,19 @@ export const app = express()
 // Direct connections will use socket.remoteAddress, which cannot be spoofed.
 app.set('trust proxy', 1)
 
+// ── Vercel Deployment URLs ─────────────────────────────────────────────────────
+// Production: https://<project>.vercel.app
+// Preview:    https://<project>-<hash>.vercel.app
+// Both are matched via wildcard patterns for CSP and CORS.
+const VERCEL_ORIGIN = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
+const CORS_ORIGINS: string[] = [
+  process.env.CORS_ORIGIN ?? 'http://localhost:5173',
+  // Vercel production domain (e.g. https://nalogai.vercel.app)
+  ...(VERCEL_ORIGIN ? [VERCEL_ORIGIN] : []),
+  // Vercel preview deployments (e.g. https://nalogai-abc123.vercel.app)
+  'https://*.vercel.app',
+]
+
 // ── Strict Content Security Policy ─────────────────────────────────────────────
 // Only allow scripts, styles, and connections from trusted sources.
 // This prevents XSS, data injection, and unauthorized script execution.
@@ -47,6 +60,8 @@ app.use(
           'https://browser.sentry-cdn.com',
           // Google Fonts preconnect
           'https://fonts.googleapis.com',
+          // Vercel deployment (inline scripts, analytics)
+          'https://*.vercel.app',
         ],
         styleSrc: [
           "'self'",
@@ -63,12 +78,16 @@ app.use(
           'data:',
           'blob:',
           'https://*.sentry.io',
+          'https://*.vercel.app',
         ],
         connectSrc: [
           "'self'",
-          // Our API
+          // Our API — production CORS origin
           process.env.CORS_ORIGIN ?? 'http://localhost:5173',
           process.env.API_URL ?? 'http://localhost:3000',
+          // Vercel deployment origin
+          ...(VERCEL_ORIGIN ? [VERCEL_ORIGIN] : []),
+          'https://*.vercel.app',
           // Sentry
           'https://*.sentry.io',
           'https://*.ingest.sentry.io',
@@ -94,7 +113,30 @@ app.use(
 )
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (server-to-server, mobile apps, curl)
+      if (!origin) return callback(null, true)
+
+      // Check exact match against configured CORS_ORIGIN
+      if (origin === (process.env.CORS_ORIGIN ?? 'http://localhost:5173')) {
+        return callback(null, true)
+      }
+
+      // Check Vercel production domain
+      if (VERCEL_ORIGIN && origin === VERCEL_ORIGIN) {
+        return callback(null, true)
+      }
+
+      // Check Vercel preview deployments (*.vercel.app)
+      try {
+        const hostname = new URL(origin).hostname
+        if (hostname.endsWith('.vercel.app')) {
+          return callback(null, true)
+        }
+      } catch { /* invalid URL — reject */ }
+
+      return callback(new Error(`CORS blocked: ${origin}`))
+    },
     credentials: true,
   }),
 )

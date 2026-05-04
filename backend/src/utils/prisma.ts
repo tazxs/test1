@@ -2,7 +2,18 @@ import { PrismaClient } from '@prisma/client'
 import { logger } from './logger'
 import { captureException } from './sentry'
 
-// Singleton pattern — reuse connection across hot-reloads in dev
+// ── Connection Pooling for Vercel Serverless ──────────────────────────────────
+// In serverless environments (Vercel), each invocation may open a new connection.
+// We use DATABASE_URL with PgBouncer (or Prisma Accelerate) for pooled queries,
+// and DATABASE_URL_DIRECT for migrations which require a single persistent connection.
+//
+// Environment variables:
+//   DATABASE_URL        — pooled connection string (e.g. Neon with ?pgbouncer=true)
+//   DATABASE_URL_DIRECT — direct connection for prisma migrate deploy
+//
+// The Prisma schema uses DATABASE_URL by default; migrations use DATABASE_URL_DIRECT.
+
+// Singleton pattern — reuse connection across hot-reloads in dev and serverless warm starts
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
 
 export const prisma =
