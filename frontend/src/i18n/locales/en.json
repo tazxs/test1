@@ -1,0 +1,593 @@
+{
+  "common": {
+    "appNavigation": "App navigation",
+    "language": "Language",
+    "chooseLanguage": "Choose language",
+    "languagePromptTitle": "Choose interface language",
+    "languagePromptText": "You can change it later in settings.",
+    "continue": "Continue",
+    "actions": {
+      "add": "Add",
+      "addManually": "Add manually",
+      "cancel": "Cancel",
+      "change": "Change",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "close": "Close",
+      "done": "Done",
+      "save": "Save",
+      "sync": "Sync",
+      "upload": "Upload"
+    },
+    "nav": {
+      "main": "Main",
+      "taxes": "Taxes",
+      "dashboard": "Dashboard",
+      "transactions": "Transactions",
+      "analytics": "Analytics",
+      "declarations": "Declarations",
+      "deadlines": "Deadlines",
+      "aiAdvisor": "AI Advisor",
+      "billing": "Plan",
+      "settings": "Settings"
+    },
+    "status": {
+      "active": "Active",
+      "current": "Current",
+      "ok": "OK",
+      "soon": "SOON",
+      "urgent": "URGENT"
+    },
+    "format": {
+      "quarter": "Q{{quarter}} {{year}}",
+      "today": "Today",
+      "yesterday": "Yesterday"
+    },
+    "emptyDash": "—",
+    "money": {
+      "kzt": "{{value}} ₸",
+      "kztPositive": "+{{value}} ₸",
+      "kztNegative": "−{{value}} ₸",
+      "kztApprox": "≈ {{value}} ₸"
+    }
+  },
+  "dashboard": {
+    "loading": "Loading...",
+    "fallbackName": "user",
+    "title": "Dashboard · {{quarter}}",
+    "greeting": {
+      "night": "Good night",
+      "morning": "Good morning",
+      "day": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "kpi": {
+      "quarterIncome": "Quarter income",
+      "taxDue": "Tax due",
+      "taxRate": "3% rate (simplified)",
+      "quarterTransactions": "Quarter transactions",
+      "selectedPeriod": "Selected period",
+      "allTransactions": "Total transactions",
+      "allTime": "All time"
+    },
+    "empty": {
+      "title": "No data",
+      "text": "Upload a bank statement or add a transaction manually to see statistics",
+      "upload": "Upload statement"
+    },
+    "addIncome": "Add income",
+    "addTransaction": "Add transaction",
+    "chart": {
+      "title": "Income and tax by month",
+      "tabs": {
+        "q2": "Q2",
+        "q1": "Q1",
+        "year": "Year"
+      },
+      "income": "Income",
+      "tax": "Tax",
+      "incomeTooltip": "Income:",
+      "taxTooltip": "Tax:",
+      "averageTaxRate": "Average tax burden:"
+    },
+    "ai": {
+      "title": "AI Advisor",
+      "headline": "Upload more data",
+      "text": "After analyzing your transactions, AI will find legal ways to reduce your tax burden",
+      "open": "Open AI Advisor →"
+    },
+    "deadlines": {
+      "title": "Tax deadlines",
+      "viewAll": "View all →",
+      "dl1Month": "MAR",
+      "dl1Name": "ESP for February 2026",
+      "dl1Sub": "Self-employed, monthly",
+      "dl2Month": "APR",
+      "dl2Name": "910.00 for Q4 2025",
+      "dl2Sub": "Simplified declaration",
+      "dl3Month": "APR",
+      "dl3Name": "Pension and medical contributions for Q1 2026",
+      "dl3Sub": "Individual entrepreneur, simplified declaration"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "search": "Search by description...",
+    "sync": "Synchronize",
+    "refreshing": "Refreshing...",
+    "tabs": {
+      "all": "All",
+      "income": "Income",
+      "expense": "Expenses",
+      "uncategorized": "Uncategorized"
+    },
+    "table": {
+      "date": "Date",
+      "description": "Description",
+      "category": "Category",
+      "amount": "Amount",
+      "source": "Source"
+    },
+    "source": {
+      "manual": "Manual",
+      "bank": "Bank",
+      "otherBank": "Bank",
+      "kaspi": "Kaspi",
+      "halyk": "Halyk",
+      "forte": "Forte"
+    },
+    "type": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "category": {
+      "SERVICES_INCOME": "Services",
+      "GOODS_INCOME": "Goods",
+      "RENT_INCOME": "Rent",
+      "CONSULTING_INCOME": "Consulting",
+      "FREELANCE_INCOME": "Freelance",
+      "DIVIDEND_INCOME": "Dividends",
+      "INTEREST_INCOME": "Interest",
+      "ASSET_SALE_INCOME": "Asset sale",
+      "OTHER_INCOME": "Other income",
+      "OFFICE_EXPENSES": "Office",
+      "EQUIPMENT_EXPENSES": "Equipment",
+      "MARKETING_EXPENSES": "Marketing",
+      "SALARY_EXPENSES": "Payroll",
+      "TRANSPORT_EXPENSES": "Transport",
+      "UTILITIES_EXPENSES": "Utilities",
+      "INSURANCE_EXPENSES": "Insurance",
+      "TAX_EXPENSES": "Taxes and fees",
+      "BANK_EXPENSES": "Bank fees",
+      "REPAIR_EXPENSES": "Repairs",
+      "SUBSCRIPTION_EXPENSES": "Subscriptions and software",
+      "OTHER_EXPENSES": "Other",
+      "UNCATEGORIZED": "Uncategorized"
+    },
+    "form": {
+      "title": "New transaction",
+      "type": "Type",
+      "amount": "Amount (₸)",
+      "category": "Category",
+      "description": "Description",
+      "descriptionPlaceholder": "Brief description",
+      "date": "Date",
+      "dateHint": "Format: YYYY-MM-DD",
+      "added": "Transaction added"
+    },
+    "pagination": "Showing {{from}}–{{to}} of {{total}}",
+    "empty": {
+      "title": "No transactions",
+      "text": "Connect a bank for automatic sync or add a transaction manually",
+      "connectBank": "Connect bank"
+    }
+  },
+  "declarations": {
+    "title": "Declarations",
+    "count_one": "{{count}} declaration",
+    "count_few": "{{count}} declarations",
+    "count_many": "{{count}} declarations",
+    "count_other": "{{count}} declarations",
+    "status": {
+      "DRAFT": "Draft",
+      "READY": "Ready",
+      "SUBMITTED": "Submitted",
+      "ACCEPTED": "Accepted",
+      "REJECTED": "Rejected"
+    },
+    "form": {
+      "FORM_910": {
+        "short": "Form 910",
+        "label": "Form 910.00 (simplified declaration)",
+        "desc": "Simplified declaration (3%)",
+        "note": "Filed semi-annually"
+      },
+      "FORM_912": {
+        "short": "Form 912",
+        "label": "Form 912 (patent)",
+        "desc": "Patent (1%)"
+      },
+      "FORM_200": {
+        "short": "Form 200",
+        "label": "Form 200 (PIT)",
+        "desc": "General PIT regime (10%)",
+        "note": "Annual"
+      },
+      "ESP": {
+        "short": "ESP",
+        "label": "Unified aggregate payment (ESP)",
+        "desc": "Unified aggregate payment",
+        "note": "Paid via eGov Mobile"
+      }
+    },
+    "regime": {
+      "SIMPLIFIED_DECLARATION": "Simplified declaration (3%)"
+    },
+    "periodOptions": {
+      "2026H1": "Half-year 1 · 2026 (Jan — Jun)",
+      "2025H2": "Half-year 2 · 2025 (Jul — Dec)",
+      "2025H1": "Half-year 1 · 2025 (Jan — Jun)",
+      "2024H2": "Half-year 2 · 2024 (Jul — Dec)",
+      "2025Year": "Year · 2025",
+      "2024Year": "Year · 2024",
+      "2023Year": "Year · 2023",
+      "2026Q1": "Q1 2026 (Jan — Mar)",
+      "2025Q4": "Q4 2025 (Oct — Dec)",
+      "2025Q3": "Q3 2025 (Jul — Sep)",
+      "2025Q2": "Q2 2025 (Apr — Jun)",
+      "2025Q1": "Q1 2025 (Jan — Mar)",
+      "2026Q1Short": "Q1 2026",
+      "2025Q4Short": "Q4 2025",
+      "2025Q3Short": "Q3 2025",
+      "2025Q2Short": "Q2 2025",
+      "2025Q1Short": "Q1 2025"
+    },
+    "actions": {
+      "create": "+ Create declaration",
+      "open": "Open →"
+    },
+    "create": {
+      "title": "New declaration",
+      "formType": "Reporting form",
+      "period": "Tax period",
+      "submit": "Create"
+    },
+    "summary": {
+      "ready": "Ready to submit",
+      "accepted": "Accepted by eGov",
+      "aiSavings": "AI savings (total)"
+    },
+    "table": {
+      "period": "Tax period",
+      "form": "Form",
+      "status": "Status",
+      "tax": "Tax",
+      "aiSavings": "AI savings",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No declarations",
+      "text": "Create your first tax declaration. AI will calculate the tax and find available deductions"
+    },
+    "toast": {
+      "espViaMobile": "ESP is registered through the eGov Mobile app, not through declarations",
+      "created": "Declaration created",
+      "createError": "Could not create declaration",
+      "calculated": "Tax calculated",
+      "calculateError": "Could not calculate tax",
+      "submitError": "Could not submit declaration to eGov",
+      "submitted": "Declaration submitted to eGov",
+      "pdfDownloading": "PDF is downloading...",
+      "pdfDownloadError": "Could not download PDF"
+    },
+    "detail": {
+      "notFound": "Declaration not found",
+      "backToList": "← Back to list",
+      "statusTitle": "Declaration status",
+      "actionsTitle": "Actions",
+      "confirmationCode": "Confirmation code",
+      "egovRegistrationNumber": "eGov reg. number",
+      "localSignedPrefix": "Declaration was signed locally. Upload the XML manually at",
+      "downloadPdf": "Download PDF",
+      "pdfMissing": "PDF not generated",
+      "pdfRequiresCalculation": "Calculate tax first",
+      "pdfUnsupported": "PDF is available for Form 910.00",
+      "signAndSubmit": "Sign and submit to eGov",
+      "awaitingConfirmation": "Awaiting eGov confirmation",
+      "acceptedByTaxAuthority": "Accepted by the tax authority",
+      "statusSteps": {
+        "DRAFT": "Declaration created, data is being filled",
+        "READY": "Calculation completed, ready to submit",
+        "SUBMITTED": "Submitted to eGov, awaiting confirmation",
+        "ACCEPTED": "Accepted by the tax authority",
+        "REJECTED": "Rejected — corrections required"
+      },
+      "calculation": {
+        "emptyTitle": "Calculation not completed yet",
+        "emptyText": "AI will analyze your transactions for the period and calculate the tax",
+        "calculate": "Calculate tax",
+        "title": "Tax calculation",
+        "regime": "Regime: {{regime}}",
+        "grossIncome": "Gross income",
+        "deductions": "Deductions",
+        "totalDeductions": "Total deductions",
+        "taxableIncome": "Taxable base",
+        "incomeTax": "PIT ({{rate}}%)",
+        "socialTax": "ST (social tax)",
+        "pension": "Pension contribution (10%)",
+        "medical": "Medical insurance (5%)",
+        "totalDue": "Total due",
+        "effectiveRate": "Effective rate: {{rate}}%",
+        "aiOptimization": "AI optimization",
+        "aiSavingsFound": "Deductions found"
+      },
+      "success": {
+        "title": "Declaration submitted!",
+        "text": "The declaration was successfully sent to eGov.kz. Await confirmation.",
+        "codeLabel": "eGov confirmation code"
+      }
+    },
+    "xml": {
+      "generatedMetadata": "Generation metadata",
+      "generalSection": "General section",
+      "reportingYear": "Reporting year",
+      "periodType": "Period type",
+      "firstDelivery": "Initial filing",
+      "version": "Version",
+      "form910Section": "Form 910.00 section",
+      "form200Section": "Form 200.00 section",
+      "nonMonetaryIncome": "Non-monetary income",
+      "monetaryIncome": "Monetary income",
+      "employeeCount": "Employee count",
+      "individualIncomeTax": "Individual income tax"
+    },
+    "signing": {
+      "title": "Sign and submit to eGov",
+      "iinMissingTitle": "IIN is missing",
+      "iinMissingText": "Fill in your IIN in Settings → Profile before submitting to eGov.",
+      "summaryTitle": "Declaration details",
+      "introPrefix": "The declaration will be signed with your",
+      "introHighlight": "EDS via NCALayer",
+      "introSuffix": "and sent to KGD (ISNA). Make sure NCALayer is running and the SIGN key is loaded.",
+      "signEds": "Sign with EDS",
+      "checkingTitle": "Checking NCALayer connection...",
+      "checkingText": "Connecting to wss://127.0.0.1:13579",
+      "signingTitle": "Signing in progress...",
+      "signingText": "Confirm the action in the NCALayer dialog",
+      "authKeyDetectedTitle": "Authentication key detected",
+      "authKeyDetectedTextPrefix": "FNO requires the key",
+      "signKeyName": "Document signing (SIGN)",
+      "authKeyDetectedTextSuffix": "Load the SIGN key in NCALayer and try again.",
+      "signedTitle": "Declaration signed with EDS",
+      "subject": "Subject",
+      "validTo": "Valid until",
+      "keyType": "Key type",
+      "signKeyValid": "Document signing ✓",
+      "authKeyWarning": "Authentication ⚠️",
+      "algorithm": "Algorithm",
+      "downloadSignedXml": "Download signed XML",
+      "sendHint": "Click Submit to send the declaration to eGov KGD",
+      "sendToEgov": "Submit to eGov",
+      "ncalayerMissing": {
+        "title": "NCALayer is not running",
+        "text": "The EDS application from Kazakhstan NCA was not found",
+        "step1": "Make sure NCALayer is installed on your computer",
+        "step2": "Start NCALayer from the system tray or Start menu",
+        "step3": "Wait until it fully loads, then click Retry"
+      },
+      "downloadNcalayer": "Download NCALayer from pki.gov.kz",
+      "retryConnection": "Retry connection",
+      "manualFallback": "If NCALayer is unavailable, download the XML and upload it manually in the KGD cabinet.",
+      "manualAlternative": "Alternatively, download the XML and upload it to KGD manually:",
+      "downloadDeclarationXml": "Download declaration XML ({{period}})",
+      "kgdCabinetHint": "Log in with EDS → Tax reporting → Import → upload the XML file",
+      "openKgdCabinet": "Open KGD cabinet (knp.kgd.gov.kz) →",
+      "kgdCabinetShort": "knp.kgd.gov.kz →",
+      "kgdCabinetSteps": "In the KGD cabinet: EDS login → Tax reporting → Import → choose the downloaded XML file",
+      "retry": "Retry",
+      "cryptoStack": "GOST3410_2015_256 · SIGN key · XMLDSig",
+      "errors": {
+        "wrongPassword": {
+          "title": "Incorrect EDS password",
+          "body": "The key password is incorrect. Check Caps Lock and try again."
+        },
+        "keyExpired": {
+          "title": "EDS key expired",
+          "body": "Your EDS key is no longer valid. Get a new one on pki.gov.kz or at a PSC."
+        },
+        "keyRevoked": {
+          "title": "Certificate revoked",
+          "body": "Your EDS certificate has been revoked (CRL). This may happen if the key was compromised or your details changed. Contact the NCA (pki.gov.kz) to obtain a new key."
+        },
+        "binMismatch": {
+          "title": "IIN mismatch",
+          "body": "The IIN/BIN in the EDS certificate does not match your IIN. Use your personal EDS key to sign declarations. If you changed your IIN, obtain a new certificate."
+        },
+        "wrongKeyType": {
+          "title": "Wrong key type",
+          "body": "A SIGN key is required to sign declarations. Load the correct key in NCALayer."
+        },
+        "userCancelled": {
+          "title": "Signing cancelled",
+          "body": "You cancelled signing in the NCALayer dialog. Click Retry when ready."
+        },
+        "invalidSignature": {
+          "title": "Signature error",
+          "body": "The signed document did not pass validation (XMLDSig is missing). Try again."
+        },
+        "timeout": {
+          "title": "Timed out",
+          "body": "NCALayer did not respond in time. Make sure the app is active and retry."
+        },
+        "disconnected": {
+          "title": "Connection lost",
+          "body": "NCALayer closed or lost connection during signing. Make sure the app is not closed and not blocked by antivirus/firewall. Port 13579 must be accessible."
+        },
+        "generic": {
+          "title": "Signature error",
+          "body": "An unknown error occurred. Try again."
+        }
+      }
+    }
+  },
+  "deadlines": {
+    "title": "Tax deadlines",
+    "currentAsOf": "Current as of {{date}}",
+    "summary": {
+      "urgent": "Urgent (within 7 days)",
+      "soon": "Soon (within 30 days)",
+      "total": "Total this year"
+    },
+    "filters": {
+      "all": "All",
+      "urgent": "Urgent",
+      "soon": "Soon",
+      "later": "Later"
+    },
+    "actions": {
+      "createDeclaration": "Create declaration →"
+    },
+    "daysRemaining_one": "{{count}} day",
+    "daysRemaining_few": "{{count}} days",
+    "daysRemaining_many": "{{count}} days",
+    "daysRemaining_other": "{{count}} days",
+    "empty": {
+      "title": "No deadlines",
+      "text": "There are no deadlines in this category"
+    },
+    "info": {
+      "title": "Good to know",
+      "text": "Amounts are approximate and based on your transactions for the period. Exact data will appear in the generated declaration. Late filing may accrue a penalty of 1.25× MRP per day."
+    },
+    "items": {
+      "dl1": { "name": "ESP for February 2026", "sub": "Self-employed, monthly" },
+      "dl2": { "name": "Form 910.00 for H1 2026", "sub": "Simplified declaration filing" },
+      "dl3": { "name": "ESP for March 2026", "sub": "Self-employed, monthly" },
+      "dl4": { "name": "Pension and medical contributions for Q1 2026", "sub": "Individual entrepreneur, simplified declaration" },
+      "dl5": { "name": "Payment for H1 2026", "sub": "Individual income tax and social payments" },
+      "dl6": { "name": "Form 910.00 for H2 2026", "sub": "Simplified declaration filing" },
+      "form910H1Submit": { "name": "Form 910.00 for H1 2026", "sub": "Simplified declaration filing" },
+      "form910H1Pay": { "name": "Payment for H1 2026", "sub": "Individual income tax and social payments" },
+      "form910H2Submit": { "name": "Form 910.00 for H2 2026", "sub": "Simplified declaration filing" },
+      "form910H2Pay": { "name": "Payment for H2 2026", "sub": "Individual income tax and social payments" }
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "profile": "Profile",
+      "banks": "Banks",
+      "notifications": "Notifications",
+      "plan": "Plan",
+      "security": "Security"
+    },
+    "profile": {
+      "iinTitle": "Individual identification number (IIN)",
+      "currentIin": "Current IIN",
+      "iinMissing": "IIN not set",
+      "changeIin": "Change IIN",
+      "newIin": "New IIN",
+      "iinHint": "12-digit identification number shown in the KGD account",
+      "iinSaved": "IIN saved",
+      "iinSaveError": "IIN save error",
+      "basic": "Basic information",
+      "fullName": "Full name",
+      "emailLocked": "Cannot be changed",
+      "businessType": "Business type",
+      "taxRegime": "Tax regime",
+      "saveChanges": "Save changes",
+      "saved": "Profile updated",
+      "saveError": "Save error",
+      "business": {
+        "selfEmployed": "Self-employed",
+        "selfEmployedDesc": "Individual, ESP, or patent",
+        "soleProprietor": "Individual entrepreneur",
+        "soleProprietorDesc": "Sole proprietor",
+        "llc": "LLP",
+        "llcDesc": "Limited liability partnership"
+      },
+      "regime": {
+        "simplified": "Simplified declaration",
+        "simplifiedDesc": "3% of income (form 910)",
+        "patent": "Patent",
+        "patentDesc": "1% of income (form 912)",
+        "esp": "ESP",
+        "espDesc": "Unified aggregate payment",
+        "general": "General regime",
+        "generalDesc": "10% personal income tax (form 200)"
+      }
+    },
+    "banks": {
+      "intro": "Connect a bank via Merchant API for automatic sync or upload a statement manually.",
+      "bannerTitle": "Kaspi Pay and Halyk ePay API connection is available",
+      "bannerText": "If you accept payments through Kaspi Pay or Halyk ePay, connect Merchant API to automatically sync income. For personal accounts, upload a PDF statement.",
+      "connected": "connected",
+      "notConnected": "Not connected",
+      "disconnected": "Bank disconnected",
+      "synced": "Synced: {{count}} new transactions",
+      "syncComplete": "Sync complete — no new transactions",
+      "syncError": "Sync error"
+    },
+    "notifications": {
+      "channels": "Notification channels",
+      "email": "Email notifications",
+      "emailDesc": "To the address used during registration",
+      "telegram": "Telegram notifications",
+      "telegramDesc": "Reminders in Telegram",
+      "telegramHint": "Get your ID via @userinfobot in Telegram",
+      "daysBefore": "Reminder lead time",
+      "selected": "Selected: {{value}}",
+      "none": "none",
+      "dayShort": "{{count}}d",
+      "beforeDay": "{{count}} days before",
+      "saved": "Notification settings saved"
+    },
+    "plan": {
+      "currentPlan": "Your current plan: ",
+      "free": "Free",
+      "freePrice": "0 ₸ / mo",
+      "proPrice": "4,990 ₸ / mo",
+      "proAiPrice": "9,990 ₸ / mo",
+      "currentCta": "Current plan",
+      "upgradePro": "Upgrade to Pro",
+      "upgradeProAi": "Get Pro AI",
+      "basicPlan": "Basic plan",
+      "activated": "{{plan}} plan activated!",
+      "features": {
+        "limit50": "Up to 50 transactions per month",
+        "oneDeclaration": "1 declaration per quarter",
+        "basicTax": "Basic tax calculation",
+        "unlimited": "Unlimited transactions",
+        "allForms": "All declaration forms",
+        "bankSync": "Bank sync",
+        "pdfExport": "PDF export",
+        "emailNotifications": "Email notifications",
+        "proIncluded": "Everything in Pro",
+        "aiUnlimited": "Unlimited AI Advisor",
+        "aiCategorization": "AI transaction categorization",
+        "deductionOptimization": "Deduction optimization",
+        "telegramBot": "Telegram bot",
+        "prioritySupport": "Priority support"
+      }
+    },
+    "security": {
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "repeatPassword": "Repeat new password",
+      "minPassword": "Minimum 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "passwordChanged": "Password changed",
+      "sessions": "Sessions",
+      "currentBrowser": "Current browser",
+      "locationNow": "Almaty, Kazakhstan · Now",
+      "endOther": "End all other sessions",
+      "ended": "All sessions ended (mock)"
+    },
+    "validation": {
+      "iinLength": "IIN must contain exactly 12 digits",
+      "iinDigits": "IIN contains digits only",
+      "iinChecksum": "Invalid IIN checksum — check the number"
+    }
+  }
+}

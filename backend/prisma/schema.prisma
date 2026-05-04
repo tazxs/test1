@@ -1,0 +1,324 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pgvector(map: "vector", schema: "public"), uuid_ossp(map: "uuid-ossp", schema: "public")]
+}
+
+// ── Enums ──────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum BusinessType {
+  SELF_EMPLOYED
+  SOLE_PROPRIETOR
+  LLC
+}
+
+enum TaxRegime {
+  SIMPLIFIED_DECLARATION
+  GENERAL_REGIME
+  PATENT
+  ESP
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  PRO_AI
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionSource {
+  MANUAL
+  KASPI
+  HALYK
+  FORTE
+  OTHER_BANK
+}
+
+enum TransactionCategory {
+  // Income
+  SERVICES_INCOME
+  GOODS_INCOME
+  RENT_INCOME
+  CONSULTING_INCOME
+  FREELANCE_INCOME
+  DIVIDEND_INCOME
+  INTEREST_INCOME
+  ASSET_SALE_INCOME
+  OTHER_INCOME
+  // Expense
+  OFFICE_EXPENSES
+  EQUIPMENT_EXPENSES
+  MARKETING_EXPENSES
+  SALARY_EXPENSES
+  TRANSPORT_EXPENSES
+  UTILITIES_EXPENSES
+  INSURANCE_EXPENSES
+  TAX_EXPENSES
+  BANK_EXPENSES
+  REPAIR_EXPENSES
+  SUBSCRIPTION_EXPENSES
+  OTHER_EXPENSES
+  // Special
+  UNCATEGORIZED
+}
+
+enum DeclarationStatus {
+  DRAFT
+  READY
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
+
+enum DeclarationPeriodType {
+  QUARTER
+  YEAR
+  MONTH
+}
+
+enum DeclarationFormType {
+  FORM_200
+  FORM_910
+  FORM_912
+  ESP
+}
+
+enum BankProvider {
+  KASPI
+  HALYK
+  FORTE
+  OTHER
+}
+
+enum BankConnectionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+  ERROR
+}
+
+enum SyncStatus {
+  IDLE
+  SYNCING
+  SUCCESS
+  FAILED
+}
+
+// ── Models ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String   @unique
+  password  String
+
+  // Profile
+  fullName  String
+  iin       String?   @unique
+  preferredLanguage String @default("ru")
+
+  // RBAC
+  role      UserRole  @default(USER)
+
+  // Business
+  businessType BusinessType @default(SELF_EMPLOYED)
+  taxRegime    TaxRegime    @default(SIMPLIFIED_DECLARATION)
+  plan         SubscriptionPlan @default(FREE)
+
+  // Notifications
+  telegramChatId        String?
+  emailNotifications    Boolean   @default(true)
+  telegramNotifications Boolean   @default(false)
+  notifyDaysBefore      Int[]     @default([14, 7, 2])
+
+  // Onboarding
+  onboardingCompleted Boolean @default(false)
+
+  // Subscription trial
+  trialEndsAt DateTime?
+
+  // Token versioning — incremented on admin actions to force JWT refresh
+  tokenVersion Int @default(0)
+
+  // Subscription lifecycle
+  accessUntil DateTime?  // When PRO/PRO_AI access expires (null = active subscription)
+  autoRenew   Boolean   @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  transactions  Transaction[]
+  declarations  Declaration[]
+  bankConnections BankConnection[]
+  refreshTokens   RefreshToken[]
+  auditLogs           AuditLog[]              @relation("AuditLogActor")
+  targetedAuditLogs   AuditLog[]              @relation("AuditLogTarget")
+  passwordResetTokens PasswordResetToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @db.Uuid
+  token     String   @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("refresh_tokens")
+}
+
+model Transaction {
+  id          String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String              @db.Uuid
+  amount      Decimal             @db.Decimal(14, 2)
+  type        TransactionType
+  category    TransactionCategory @default(UNCATEGORIZED)
+  description String
+  source      TransactionSource   @default(MANUAL)
+  externalId  String?             // Bank-provided ID for dedup
+  aiConfidence Float?             // 0–1, confidence of AI categorization
+  date        DateTime            @db.Date
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, externalId])
+  @@index([userId, date(sort: Desc)])
+  @@index([userId, type])
+  @@index([userId, category])
+  @@index([userId, deletedAt])
+  @@index([userId, source])          // Bank sync dedup queries
+  @@index([source, createdAt])       // Cleanup job: find bank-imported txns
+  @@map("transactions")
+}
+
+model Declaration {
+  id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String                @db.Uuid
+  period      String                // "2025-Q1", "2025-01", "2025"
+  periodType  DeclarationPeriodType
+  formType    DeclarationFormType
+  status      DeclarationStatus     @default(DRAFT)
+  calculation Json?                 // TaxCalculationResult snapshot
+  pdfUrl      String?
+  eGovConfirmationCode String?
+  submittedAt DateTime?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, period, formType])
+  @@index([userId, status])
+  @@index([userId, deletedAt])
+  @@index([userId, formType])        // Filter declarations by form type
+  @@index([status, createdAt])       // ISNA poll: find SUBMITTED declarations
+  @@map("declarations")
+}
+
+// ── Tax law knowledge base (pgvector RAG) ──────────────────────────────────────
+// Populated via scripts/seedTaxLaw.ts. Re-index when NK RK is updated.
+// embedding: vector(768) = Gemini text-embedding-004 output dimensions.
+model TaxLawChunk {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  articleNumber String   // "ст. 686 НК РК"
+  title         String   // "Исчисление налогов по упрощённой декларации"
+  content       String   // Article text (≤ 1500 chars per chunk)
+  embedding     Unsupported("vector(768)")?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([articleNumber])
+  @@map("tax_law_chunks")
+}
+
+model AuditLog {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorId   String   @db.Uuid           // User/Admin who performed the action
+  targetId  String?  @db.Uuid           // User affected (nullable for system actions)
+  action    String                      // e.g. "UNMASK_IIN", "SUBSCRIPTION_OVERRIDE", "VIEW_USER_LOGS"
+  details   Json?                       // Additional context (old/new values, financial payload snapshots)
+  ipAddress String?                     // IPv4/IPv6 address of the client
+  userAgent String?                     // Browser/device fingerprint from User-Agent header
+  actionCategory String  @default("SYSTEM") // FINANCIAL | SECURITY | SYSTEM — categorizes the action for filtering
+
+  createdAt DateTime @default(now())
+
+  actor  User  @relation("AuditLogActor", fields: [actorId], references: [id], onDelete: Cascade)
+  target User? @relation("AuditLogTarget", fields: [targetId], references: [id], onDelete: SetNull)
+
+  @@index([actorId])
+  @@index([targetId])
+  @@index([action])
+  @@index([actorId, createdAt(sort: Desc)])  // Admin chronological timeline per user
+  @@index([actionCategory])                  // Filter by category (FINANCIAL, SECURITY, SYSTEM)
+  @@index([createdAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId    String   @db.Uuid
+  token     String   @unique
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@map("password_reset_tokens")
+}
+
+model BankConnection {
+  id          String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String               @db.Uuid
+  provider    BankProvider
+  accountMask String?
+  // Encrypted tokens stored here — NEVER returned to client
+  accessToken  String?
+  refreshToken String?
+  tokenExpiresAt DateTime?
+
+  status      BankConnectionStatus @default(ACTIVE)
+  lastSyncAt  DateTime?
+  syncStatus  SyncStatus           @default(IDLE)
+  syncError   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+  @@index([userId])
+  @@map("bank_connections")
+}

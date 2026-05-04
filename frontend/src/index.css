@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets ──────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #060C1A;
+    color: #F0F4FF;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono numerics — applied via font-mono utility class */
+  .font-mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Remove default button styles */
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Remove default input styles */
+  input, textarea, select {
+    font-family: inherit;
+    outline: none;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #060C1A;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(240, 244, 255, 0.15);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(240, 244, 255, 0.3);
+  }
+}
+
+/* ── Component helpers ────────────────────────────────────────────────────── */
+@layer components {
+  /* Standard container */
+  .container-app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+
+  @media (max-width: 768px) {
+    .container-app {
+      padding: 0 20px;
+    }
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(240, 244, 255, 0.05) 0%,
+      rgba(240, 244, 255, 0.1) 50%,
+      rgba(240, 244, 255, 0.05) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton 1.5s ease-in-out infinite;
+  }
+
+  /* Green glow border */
+  .border-glow {
+    border: 1px solid rgba(0, 232, 122, 0.3);
+    box-shadow: 0 0 12px rgba(0, 232, 122, 0.3);
+  }
+
+  /* Gradient text */
+  .text-gradient-green {
+    background: linear-gradient(135deg, #00E87A 0%, #00B85F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ── Utilities ────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .transition-hover {
+    transition: all 0.2s ease;
+  }
+
+  .transition-lift {
+    transition: all 0.25s ease;
+  }
+
+  .transition-color {
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+}

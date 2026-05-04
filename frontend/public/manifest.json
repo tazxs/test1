@@ -1,0 +1,39 @@
+{
+  "name": "NalogAI — Налоги без боли",
+  "short_name": "NalogAI",
+  "description": "AI-ассистент по налогам для самозанятых и ИП в Казахстане",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#060C1A",
+  "theme_color": "#060C1A",
+  "orientation": "portrait-primary",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Добавить транзакцию",
+      "short_name": "Транзакция",
+      "url": "/transactions",
+      "description": "Добавить транзакцию вручную"
+    },
+    {
+      "name": "Декларации",
+      "short_name": "Декларации",
+      "url": "/declarations",
+      "description": "Мои налоговые декларации"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.git
+node_modules
+*.log
+coverage/
+.vscode/
+.idea/
+backend/uploads/
+backend/pdfs/
+frontend/dist/
+*.md
+!README.md
+.claude/

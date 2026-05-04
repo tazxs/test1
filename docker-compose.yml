@@ -1,0 +1,39 @@
+# Development: only infrastructure runs in Docker.
+# Run the app locally: npm run dev (from backend/ and frontend/).
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: nalogai_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nalogai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nalogai}
+      POSTGRES_DB: ${POSTGRES_DB:-nalogai}
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-nalogai}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: nalogai_redis
+    restart: unless-stopped
+    ports:
+      - '6380:6379'
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
