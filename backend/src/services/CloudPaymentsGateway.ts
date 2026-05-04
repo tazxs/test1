@@ -112,7 +112,7 @@ export class CloudPaymentsGateway {
 
     const chargeWithBreaker = createExternalCircuit(
       'cloudpayments-charge',
-      async (req: ChargeRequest) => {
+      async (_req: ChargeRequest) => {
         const auth = Buffer.from(`${this.publicId}:${this.apiSecret}`).toString('base64')
 
         const response = await fetch(`${CP_API_URL}/payments/charge`, {

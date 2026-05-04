@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-const { randomUUID, randomBytes, createHash } = crypto
+const { randomUUID, createHash } = crypto
 import bcrypt from 'bcrypt'
 import { Prisma } from '@prisma/client'
 import { prisma } from '@utils/prisma'

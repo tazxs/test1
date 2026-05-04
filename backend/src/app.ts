@@ -38,14 +38,6 @@ app.set('trust proxy', 1)
 // Preview:    https://<project>-<hash>.vercel.app
 // Both are matched via wildcard patterns for CSP and CORS.
 const VERCEL_ORIGIN = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
-const CORS_ORIGINS: string[] = [
-  process.env.CORS_ORIGIN ?? 'http://localhost:5173',
-  // Vercel production domain (e.g. https://nalogai.vercel.app)
-  ...(VERCEL_ORIGIN ? [VERCEL_ORIGIN] : []),
-  // Vercel preview deployments (e.g. https://nalogai-abc123.vercel.app)
-  'https://*.vercel.app',
-]
-
 // ── Strict Content Security Policy ─────────────────────────────────────────────
 // Only allow scripts, styles, and connections from trusted sources.
 // This prevents XSS, data injection, and unauthorized script execution.
