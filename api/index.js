@@ -1,16 +1,17 @@
 /**
  * Vercel Serverless Function entry point.
  *
- * This thin wrapper imports the compiled Express app from the backend workspace
- * and re-exports it as the default handler for Vercel's Node.js runtime.
+ * Imports the compiled Express app from the backend workspace and re-exports
+ * it as the default handler for Vercel's Node.js runtime.
  *
  * Build flow:
  *   1. npm install (all workspaces)
- *   2. npm run build --workspace=shared
- *   3. npm run build --workspace=backend  → backend/dist/
+ *   2. npm run build --workspace=shared   → shared constants (MRP = 4,325 ₸)
+ *   3. npm run build --workspace=backend  → backend/dist/app.js
  *   4. npm run build --workspace=frontend → frontend/dist/
  *
  * The vercel.json rewrite routes /api/:path* → /api (this function).
+ * Trust proxy is set to 1 in app.ts for correct IP extraction behind Vercel.
  */
 
 const { app } = require('../backend/dist/app')
