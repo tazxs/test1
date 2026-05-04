@@ -6,13 +6,7 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.js": {
-      "includeFiles": [
-        "backend/dist/**",
-        "backend/prisma/schema.prisma",
-        "node_modules/.prisma/client/**",
-        "node_modules/@prisma/client/**",
-        "node_modules/@prisma/engines/**"
-      ]
+      "includeFiles": "backend/dist/**,node_modules/.prisma/**,node_modules/@prisma/client/**,node_modules/@prisma/engines/**"
     }
   },
   "rewrites": [
