@@ -2,13 +2,8 @@
   "version": 2,
   "framework": "vite",
   "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run build --workspace=shared && npx prisma generate --schema=backend/prisma/schema.prisma && npm run build --workspace=backend && npm run build --workspace=frontend",
+  "buildCommand": "npm run build --workspace=shared && npx prisma generate --schema=backend/prisma/schema.prisma && npm run build --workspace=backend && cp -r backend/dist api/backend-dist && npm run build --workspace=frontend",
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "backend/dist/**,node_modules/.prisma/**,node_modules/@prisma/client/**,node_modules/@prisma/engines/**"
-    }
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api" }
   ]

@@ -60,3 +60,6 @@ backend/pdfs/
 
 # Docker overrides
 docker-compose.override.yml
+
+# Vercel build artifact (backend compiled into api/ for serverless bundling)
+api/backend-dist/
