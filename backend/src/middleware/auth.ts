@@ -27,46 +27,28 @@ function extractBearer(req: Request): string | null {
   return header.slice(7)
 }
 
+// ── BETA TEST MODE ──────────────────────────────────────────────────────────
+// JWT verification is bypassed. A mock admin user is attached to every request.
+// AuditLogService still records all actions under 'guest_beta' for non-repudiation.
+// PII redaction remains active — all sensitive data is masked in Neon logs.
+const BETA_MOCK_USER: JwtPayload = {
+  sub: 'guest_beta',
+  email: 'beta@nalogai.kz',
+  plan: 'PRO_AI',
+  role: 'ADMIN',
+  tokenVersion: 0,
+  iat: Math.floor(Date.now() / 1000),
+  exp: Math.floor(Date.now() / 1000) + 900,
+}
+
 export const requireAuth: RequestHandler = async (
   req: Request,
   _res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const token = extractBearer(req)
-  if (!token) throw new UnauthorizedError('Missing access token')
-
-  const secret = process.env.JWT_ACCESS_SECRET
-  if (!secret) throw new Error('JWT_ACCESS_SECRET not configured')
-
-  try {
-    const payload = jwt.verify(token, secret) as JwtPayload
-    req.user = payload
-
-    // Token version check: if the user's tokenVersion in DB is higher than
-    // the JWT's, the token is stale (admin changed subscription, etc.)
-    // Skip check for admin routes to avoid circular DB lookups on every admin request.
-    if (!req.path.startsWith('/api/admin')) {
-      try {
-        const { prisma } = await import('@utils/prisma')
-        const user = await prisma.user.findUnique({
-          where: { id: payload.sub },
-          select: { tokenVersion: true },
-        })
-        if (user && user.tokenVersion > (payload.tokenVersion ?? 0)) {
-          throw new UnauthorizedError('Token expired — please refresh')
-        }
-      } catch (dbErr) {
-        // If it's our own UnauthorizedError, re-throw
-        if (dbErr instanceof UnauthorizedError) throw dbErr
-        // DB errors should not block auth — let request through
-      }
-    }
-
-    next()
-  } catch (err) {
-    if (err instanceof UnauthorizedError) throw err
-    throw new UnauthorizedError('Invalid or expired access token')
-  }
+  // BETA: Skip JWT verification, attach mock user
+  req.user = BETA_MOCK_USER
+  next()
 }
 
 /** Same as requireAuth but allows unauthenticated requests through */

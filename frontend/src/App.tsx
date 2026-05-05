@@ -235,10 +235,10 @@ export function App() {
     <BrowserRouter>
       <Suspense fallback={<PageLoader />}>
         <Routes>
-            {/* Public routes */}
-            <Route path={ROUTES.HOME} element={<Landing />} />
-            <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.REGISTER} element={<Register />} />
+            {/* BETA: Redirect root to dashboard */}
+            <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+            <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.DASHBOARD} replace />} />
+            <Route path={ROUTES.REGISTER} element={<Navigate to={ROUTES.DASHBOARD} replace />} />
             <Route path={ROUTES.PRICING} element={<Pricing />} />
             <Route path={ROUTES.TERMS} element={<TermsOfService />} />
             <Route path={ROUTES.PRIVACY} element={<PrivacyPolicy />} />

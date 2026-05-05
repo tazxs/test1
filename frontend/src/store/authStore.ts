@@ -17,14 +17,37 @@ interface AuthState {
   setLoading: (loading: boolean) => void
 }
 
+// ── BETA TEST MODE ──────────────────────────────────────────────────────────
+// Auto-authenticate with a mock user for beta testing.
+// This bypasses login/registration to allow direct dashboard access.
+const BETA_USER: UserProfile = {
+  id: 'beta_tester',
+  email: 'beta@nalogai.kz',
+  fullName: 'Beta User',
+  iin: null,
+  role: 'ADMIN',
+  plan: 'PRO_AI',
+  businessType: 'SELF_EMPLOYED',
+  taxRegime: 'SIMPLIFIED_DECLARATION',
+  preferredLanguage: 'ru',
+}
+
+// Set dummy auth token in localStorage if not present
+if (typeof window !== 'undefined' && !localStorage.getItem('nalogai-auth')) {
+  localStorage.setItem('nalogai-auth', JSON.stringify({
+    state: { isAuthenticated: true, planOverride: 'PRO_AI' },
+    version: 0,
+  }))
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      user: null,
-      accessToken: null,
-      isAuthenticated: false,
+      user: BETA_USER,
+      accessToken: 'beta_test_token',
+      isAuthenticated: true,
       isLoading: false,
-      planOverride: null,
+      planOverride: 'PRO_AI',
 
       setUser: (user, accessToken) =>
         set({ user, accessToken, isAuthenticated: true, isLoading: false }),
